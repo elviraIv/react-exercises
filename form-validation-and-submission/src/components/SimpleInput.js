@@ -9,7 +9,7 @@ const SimpleInput = (props) => {
   useEffect(() => {
     if (enteredNameIsValid) {
     }
-  }, [enteredName]);
+  }, [enteredName, enteredNameIsValid]);
 
   const nameInputHandler = (e) => {
     setEnteredName(e.target.value);
