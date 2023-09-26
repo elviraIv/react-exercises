@@ -1,10 +1,10 @@
 import { Fragment } from "react";
 import { useParams, Route } from "react-router-dom";
-import Comments
+import Comments from '../components/comments/Comments'
 
 
 
-export const QuoteDetail = () => {
+export const QuoteDetails = () => {
   const params = useParams();
 
   return (
