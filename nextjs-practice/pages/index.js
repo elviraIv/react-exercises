@@ -1,25 +1,60 @@
+import Head from "next/head";
+import { Fragment } from "react";
+import { MongoClient } from "mongodb";
+
 import MeetupList from "../components/meetups/MeetupList";
 
-const HomePage = () => {
-  const DUMMY_MEETUPS = [
-    {
-      id: "m1",
-      title: "a first meetup",
-      image:
-        "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2144&q=80",
-      address: "some address 5, 1234, some city",
-      description: "this is a first meetup!",
+const HomePage = (props) => {
+  return (
+    <Fragment>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Browse a huge list of active meetups!"
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />;
+    </Fragment>
+  );
+};
+
+// export const getServerSideProps = async (context) => {
+//   const req = context.req
+//   const res = context.res
+
+//   //fetch data from an api
+//    return{
+//     props:{
+//       meetups:DUMMY_MEETUPS
+//     }
+//    }
+// }
+
+export const getStaticProps = async () => {
+  //fetch data from an api
+  const client = await MongoClient.connect(
+    "mongodb+srv://elvira-0:elvira-0@cluster0.2m74irc.mongodb.net/meetups?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
+  return {
+    props: {
+      meetups: meetups.map((meetup) => ({
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image,
+        id: meetup._id.toString(),
+      })),
     },
-    {
-      id: "m2",
-      title: "a second meetup",
-      image:
-        "https://images.unsplash.com/photo-1494522855154-9297ac14b55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      address: "some address 2, 1dfff234, some city",
-      description: "this is a second meetup!",
-    },
-  ];
-  return <MeetupList meetups={DUMMY_MEETUPS} />;
+    revalidate: 1,
+  };
 };
 
 export default HomePage;
