@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import * as gameService from "../../../services/gameService";
 
 import "./App.css";
 import Header from "./components/Header/Header/Header";
@@ -11,23 +14,28 @@ import CreateGame from "./components/CreateGame/CreateGame";
 import Catalog from "./components/Catalog/Catalog";
 
 function App() {
+  const [games, setGames] = useState([]);
+
+  useEffect(() => {
+    gameService.getAll().then((result) => {
+      setGames(result);
+    });
+  }, []);
+
   return (
     <div id="box">
       <Header />
       <main id="main-content">
         <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/register" element={<Register/>}/>
-          <Route path="/create" element={<CreateGame/>}/>
-          <Route path="/catalog" element={<Catalog/>}/>
+          <Route path="/" element={<Home games={games} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/create" element={<CreateGame />} />
+          <Route path="/catalog" element={<Catalog games={games} />} />
         </Routes>
         <Home />
       </main>
 
-     
-  
-      
       {/* Edit Page ( Only for the creator )*/}
       <section id="edit-page" className="auth">
         <form id="edit">
@@ -118,7 +126,6 @@ function App() {
         </article>
       </section>
       {/* Catalogue */}
-      
     </div>
   );
 }
