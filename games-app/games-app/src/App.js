@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { Route, Routes } from "react-router-dom";
 
 import "./App.css";
 import Header from "./components/Header/Header";
@@ -9,12 +10,12 @@ function App() {
   return (
     <div id="box">
       <Header />
-      {/* Main Content */}
       <main id="main-content">
-        <Home/>
-
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+        </Routes>
+        <Home />
       </main>
-
 
       {/* Login Page ( Only for Guest users ) */}
       <section id="login-page" className="auth">
