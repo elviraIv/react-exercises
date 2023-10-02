@@ -8,11 +8,11 @@ const GameDetails = ({ games, addComment }) => {
     comment: "",
   });
 
-  const game = games.find((x) => x._id == gameId);
+  const game = games.find((x) => x._id === gameId);
 
   const addCommentHandler = (e) => {
-    e.preventDefault()
-    addComment(gameId, `${comment.username}: ${comment.comment}`)
+    e.preventDefault();
+    addComment(gameId, `${comment.username}: ${comment.comment}`);
   };
 
   const onChange = (e) => {
@@ -36,16 +36,13 @@ const GameDetails = ({ games, addComment }) => {
         <div className="details-comments">
           <h2>Comments:</h2>
           <ul>
-            {/* list all comments for current game (If any) */}
-            <li className="comment">
-              <p>Content: I rate this one quite highly.</p>
-            </li>
-            <li className="comment">
-              <p>Content: The best game.</p>
-            </li>
+            {game.comments?.map((x) => (
+              <li className="comment">
+                <p>{x}</p>
+              </li>
+            ))}
+            {!game.comments && <p className="no-comment">No comments.</p>}
           </ul>
-          {/* Display paragraph: If there are no games in the database */}
-          <p className="no-comment">No comments.</p>
         </div>
         {/* Edit/Delete buttons ( Only for creator of this game )  */}
         <div className="buttons">
