@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import uniqid from 'uniqid'
 
 import * as gameService from "../../../services/gameService";
 
@@ -16,22 +15,32 @@ import GameDetails from "./components/GameDetails/GameDetails";
 
 function App() {
   const [games, setGames] = useState([]);
+  const navigate = useNavigate();
 
   const addComment = (gameId, comment) => {
-    setGames(state=> {
+    setGames((state) => {
+      const game = state.find((x) => x._id === gameId);
 
-      const game = state.find(x=> x._id === gameId);
-      
-      const comments = game.comments || []
-      comments.push(comment)
+      const comments = game.comments || [];
+      comments.push(comment);
 
       return [
-        ...state.filter(x => x._id !== gameId),
-        {...game, comments:comments}
-      ]
-    })
+        ...state.filter((x) => x._id !== gameId),
+        { ...game, comments: comments },
+      ];
+    });
+  };
+
     
-      
+  const addGameHandler = (gameData) => {
+    setGames(state => [
+      ...state,
+      {
+        ...gameData,
+        _id: uniqid(),
+      }
+    ]);
+    navigate('/catalog')
   }
 
   useEffect(() => {
@@ -48,9 +57,12 @@ function App() {
           <Route path="/" element={<Home games={games} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/create" element={<CreateGame />} />
+          <Route path="/create" element={<CreateGame addGameHandler={addGameHandler} />} />
           <Route path="/catalog" element={<Catalog games={games} />} />
-          <Route path="/catalog/:gameId" element={<GameDetails games={{games, addComment}}/>}/>
+          <Route
+            path="/catalog/:gameId"
+            element={<GameDetails games={{ games, addComment }} />}
+          />
         </Routes>
         <Home />
       </main>
