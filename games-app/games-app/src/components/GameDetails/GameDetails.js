@@ -8,6 +8,11 @@ const GameDetails = ({ games, addComment }) => {
     comment: "",
   });
 
+  const [error, setError] = useState({
+    username: "",
+    comment: "",
+  });
+
   const game = games.find((x) => x._id === gameId);
 
   const addCommentHandler = (e) => {
@@ -21,6 +26,22 @@ const GameDetails = ({ games, addComment }) => {
       [e.target.name]: e.target.value,
     }));
   };
+
+  const validateUsername = (e) => {
+    const username = e.target.value;
+    let errorMessage = "";
+
+    if (username.length < 4) {
+      errorMessage = "Username must be longer than 4 characters";
+    } else if (username.length > 10) {
+      errorMessage = "Username must be shorter than 10 characters";
+    }
+    setError((state) => ({
+      ...state,
+      username: errorMessage,
+    }));
+  };
+
   return (
     <section id="game-details">
       <h1>Game Details</h1>
@@ -44,7 +65,6 @@ const GameDetails = ({ games, addComment }) => {
             {!game.comments && <p className="no-comment">No comments.</p>}
           </ul>
         </div>
-        {/* Edit/Delete buttons ( Only for creator of this game )  */}
         <div className="buttons">
           <Link href="#" className="button">
             Edit
@@ -61,10 +81,16 @@ const GameDetails = ({ games, addComment }) => {
           <input
             onChange={onChange}
             value={comment.username}
+            onBlur={validateUsername}
             type="text"
             name="username"
             placeholder="John Doe"
           />
+
+              {error.username && 
+              <div style={{color:'red'}}>{error.username}</div>}
+
+
           <textarea
             name="comment"
             placeholder="Comment......"
