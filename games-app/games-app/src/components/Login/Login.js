@@ -1,7 +1,22 @@
+import { Link } from "react-router-dom";
+
+import { login } from "../../services/authService";
+
 const Login = () => {
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const { email,password } = Object.fromEntries(new FormData(e.target))
+    login(email,password)
+      .then(authData =>{
+        console.log(authData);
+      })
+
+  }
   return (
     <section id="login-page" className="auth">
-      <form id="login">
+      <form id="login" onSubmit={onSubmit}>
         <div className="container">
           <div className="brand-logo" />
           <h1>Login</h1>
@@ -17,7 +32,7 @@ const Login = () => {
           <input type="submit" className="btn submit" defaultValue="Login" />
           <p className="field">
             <span>
-              If you don't have profile click <a href="#">here</a>
+              If you don't have profile click <Link href="#">here</Link>
             </span>
           </p>
         </div>
