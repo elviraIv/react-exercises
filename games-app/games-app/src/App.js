@@ -12,21 +12,12 @@ import Register from "./components/Register/Register";
 import CreateGame from "./components/CreateGame/CreateGame";
 import Catalog from "./components/Catalog/Catalog";
 import GameDetails from "./components/GameDetails/GameDetails";
-import { AuthContext } from "./context/authContext";
+import { AuthProvider } from "./context/authContext";
 import Logout from "./components/Logout/Logout";
 
 function App() {
   const [games, setGames] = useState([]);
-  const [auth,setAuth] = useState({})
   const navigate = useNavigate();
-
-  const userLogin = (authData) => {
-    setAuth(authData)
-  }
-
-  const userLogout = () => {
-    setAuth({})
-  }
 
   const addComment = (gameId, comment) => {
     setGames((state) => {
@@ -60,7 +51,7 @@ function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={{user:auth, userLogin, userLogout}}>
+    <AuthProvider>
       <div id="box">
         <Header />
         <main id="main-content">
@@ -77,7 +68,7 @@ function App() {
               path="/catalog/:gameId"
               element={<GameDetails games={{ games, addComment }} />}
             />
-            <Route path="/logout" element={<Logout/>}/>
+            <Route path="/logout" element={<Logout />} />
           </Routes>
           <Home />
         </main>
@@ -122,7 +113,7 @@ function App() {
           </form>
         </section>
       </div>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
