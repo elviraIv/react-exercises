@@ -4,6 +4,8 @@ import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import { Table } from "@radix-ui/themes";
+import Link from "@/app/components/Link";
 
 interface Props {
   params: {
