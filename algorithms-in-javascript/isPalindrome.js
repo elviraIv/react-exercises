@@ -1,20 +1,21 @@
+//without using regex
+//ignore punctuations
+
 function isPalindrome(string) {
+  string = string.toLowerCase();
 
-    const charactersArray = string.toLowerCase().split('');
-    const alphabetArray = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  let charactersArray = string.split("");
+  let validCharacters = "abcdefghijklmnopqrstuvwxyz".split("");
 
-    const validStringArray=[];
+  let lettersArray = [];
 
-    charactersArray.forEach(x=>{
-        if(alphabetArray.indexOf(x) > 0){
-            validStringArray.push(x)
-        }
-    })
+  charactersArray.forEach((char) => {
+    if (validCharacters.indexOf(char) > -1) {
+      lettersArray.push(char);
+    }
+  });
 
-    return(validStringArray.join('') === validStringArray.reverse().join(''))
-
-
-
+  return (lettersArray.join("") === lettersArray.reverse().join(""))
 }
 
-isPalindrome("Madam, I'm Adam");
+console.log(isPalindrome("Madam, I'm Adam"));
