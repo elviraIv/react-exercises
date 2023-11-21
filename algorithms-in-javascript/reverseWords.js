@@ -1,18 +1,16 @@
 function reverseWords(string) {
-  let array = string.split(" ");
+  let wordsArr = string.split(" ");
+  let reversedWordsArr = [];
 
-  let reversedWordsArray = [];
-
-  array.forEach((word) => {
+  wordsArr.forEach((word) => {
     let reversedWord = "";
-    for (let index = word.length - 1; index >= 0; index--) {
-      reversedWord += word[index];
+    for (let i = word.length-1; i >= 0; i--) {
+      reversedWord += word[i];
     }
-    reversedWordsArray.push(reversedWord);
+
+    reversedWordsArr.push(reversedWord);
   });
 
-  return reversedWordsArray.join(" ");
+  return reversedWordsArr.join(" ");
 }
-
-reverseWords("this is a string of words");
-//siht si a gnirts fo sdrow
+console.log(reverseWords("this is a string of words"));
