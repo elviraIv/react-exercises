@@ -21,4 +21,4 @@ function twoSum(numArray, sum) {
 }
 
 // console.log(twoSum([1, 6, 4, 5, 3, 3], 7));
-console.log(twoSum([40,11,19,17,-12], 28));
+console.log(twoSum([40, 11, 19, 17, -12], 28));
