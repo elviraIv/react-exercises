@@ -9,7 +9,7 @@ function getMedian(numArr) {
   let median;
 
   if (numArr.length % 2 !== 0) {
-    median = numArr[Math.floor(numArr.length - 2)];
+    median = numArr[Math.floor(numArr.length / 2)];
   } else {
     let mid1 = numArr[numArr.length / 2 - 1];
     let mid2 = numArr[numArr.length / 2];
@@ -51,4 +51,4 @@ function meanMedianMode(numArr) {
   };
 }
 
-console.log(meanMedianMode([1,2,3,4,5,4,6,1]));
+console.log(meanMedianMode([1, 2, 3, 4, 5, 4, 6, 1]));
